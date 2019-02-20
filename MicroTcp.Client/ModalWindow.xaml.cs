@@ -21,27 +21,28 @@ namespace MicroTcp.Client
     /// </summary>
     public partial class ModalWindow : Window
     {
-        private BLL.Common Common;
-        public static ValidatePortModel _portNumber;
-        public static ClientRepository _clientRepository;
+        private BLL.Common _common;
+        public static DAL.Entities.Client _currentСlient;
+
         
         public ModalWindow()
         {
             InitializeComponent();
-            Common = new BLL.Common();
-            _clientRepository = new ClientRepository();
+            _common = new BLL.Common();
+
         }
 
-        private void btn_Set_Port_Click(object sender, RoutedEventArgs e)
+        private void btn_Sign_In_Click(object sender, RoutedEventArgs e)
         {
-            //bool isPortNumberValid = Common.ValidatePortNumber(txt_PortNumber.Text);
-            //if (isPortNumberValid)
-            //{
-            //    _portNumber = Common.ValidatePortNumberTuple(txt_PortNumber.Text);
-            //    this.Close();
-            //}
-            //txt_PortNumber.Text = String.Empty;
-            _clientRepository.CheckIn();
+            _currentСlient = _common.SignIn(txt_NickName.Text,
+                txt_Password.Text);
+            if (_currentСlient != null)
+            {
+                this.Close();
+            }
+            txt_NickName.Text = String.Empty;
+            txt_Password.Text = String.Empty;
         }
+
     }
 }

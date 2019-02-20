@@ -26,6 +26,7 @@ namespace MicroTcp.Client
     public partial class MainWindow : Window
     {
         private TcpClient _client;
+        public static DAL.Entities.Client _currentСlient;
 
         private StreamReader _sReader;
         private StreamWriter _sWriter;
@@ -37,15 +38,24 @@ namespace MicroTcp.Client
         {
             ModalWindow modalWindow = new ModalWindow();
             modalWindow.ShowDialog();
-            if (!ModalWindow._portNumber.IsValid)
+            _currentСlient = ModalWindow._currentСlient;
+            if (_currentСlient == null)
             {
                 System.Windows.Application.Current.Shutdown();
             }
-            _portNumber = ModalWindow._portNumber.PortNmber;
+            else
+            {
+                InitializeComponent();
+                System.Threading.Thread.Sleep(5000);
+                //SetСlientData();
+                StartTcpClient();
+            }
 
-            InitializeComponent();
-            System.Threading.Thread.Sleep(5000);
-            StartTcpClient();
+        }
+
+        private void SetСlientData()
+        {
+            throw new NotImplementedException();
         }
 
         private void StartTcpClient()

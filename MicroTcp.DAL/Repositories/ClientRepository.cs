@@ -20,7 +20,8 @@ namespace MicroTcp.DAL.Repositories
         {
             try
             {
-                var newClient = new Client {
+                var newClient = new Client
+                {
                     NickName = "First",
                     Password = "First"
                 };
@@ -32,10 +33,25 @@ namespace MicroTcp.DAL.Repositories
             {
                 return false;
             }
-
-
         }
 
+        public Client SignIn(string nickName, string password)
+        {
+            try
+            {
+                var client = _context.Clients
+                     .Where(x => x.NickName == nickName && x.Password == password).FirstOrDefault();
+                if (client != null)
+                {
+                    return client;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
 
 

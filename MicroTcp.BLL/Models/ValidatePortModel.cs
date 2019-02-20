@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MicroTcp.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,6 @@ namespace MicroTcp.BLL.Models
     public class ValidatePortModel
     {
         public bool IsValid { get; set; }
-        public int PortNmber { get; set; }
+        public Client Client { get; set; }
     }
 }
