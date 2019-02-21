@@ -53,7 +53,11 @@ namespace MicroTcp.DAL.Repositories
             }
         }
 
-
-
+        public IQueryable<UserConnection> GetUserConnections(int id)
+        {
+            var client = _context.UserConnections
+                     .Where(x => x.Owner.Id == id);
+            return client;
+        }
     }
 }

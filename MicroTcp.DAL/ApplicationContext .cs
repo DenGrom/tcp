@@ -14,6 +14,8 @@ namespace MicroTcp.DAL
         {
         }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Conversation> Conversations { get; set; }
+        public DbSet<ConversationClient> ConversationClients { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<UserConnection> UserConnections { get; set; }
     }

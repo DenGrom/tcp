@@ -17,7 +17,11 @@
             <TextBox x:Name="textSent" TextWrapping="Wrap" Text="type..."/>
         </Border>
         <Button x:Name="btn_Sent" Content="Sent" HorizontalAlignment="Left" Margin="432,289,0,0" VerticalAlignment="Top" Width="75" Click="btn_Sent_Click"/>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="211" Margin="10,36,0,0" VerticalAlignment="Top" Width="205"/>
+        <ListBox x:Name="listBox" ItemsSource="{Binding Clients}" 
+             
+             SelectedValue="Id" DisplayMemberPath="NickName"
+                 HorizontalAlignment="Left" Height="211" Margin="10,36,0,0" 
+                 VerticalAlignment="Top" Width="205" SelectionChanged="listBox_SelectionChanged"/>
         <Label x:Name="lbl_info" Content="Info" HorizontalAlignment="Left" Margin="215,10,0,0" VerticalAlignment="Top" Width="292"/>
 
     </Grid>

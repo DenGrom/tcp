@@ -20,6 +20,7 @@ using System.Windows.Shapes;
 using Newtonsoft.Json;
 using MicroTcp.DAL.Entities;
 using MicroTcp.DAL.Entities.Enums;
+using System.Collections.ObjectModel;
 
 namespace MicroTcp.Client
 {
@@ -32,6 +33,8 @@ namespace MicroTcp.Client
         private StreamWriter _sWriter;
         private int _portNumber = 5555;
         private bool _isAuthenticated;
+        private BLL.Common _common;
+        ObservableCollection<DAL.Entities.Client>  Clients;
 
         private Boolean _isConnected;
         public MainWindow()
@@ -46,16 +49,27 @@ namespace MicroTcp.Client
             else
             {
                 InitializeComponent();
-                System.Threading.Thread.Sleep(5000);
-                //SetСlientData();
+                _common = new BLL.Common();
+                Clients = new ObservableCollection<DAL.Entities.Client>();
+                UpdateСlientData();
                 StartTcpClient();
             }
 
         }
 
-        private void SetСlientData()
+        private void UpdateСlientData()
         {
-            throw new NotImplementedException();
+            //var userConnections = _common.GetUserConnections(_currentСlient.Id).ToList();
+            // foreach (var userConnection in userConnections)
+            // {
+            //     listBox.Items.Add(userConnection);
+            // }
+            var userConnections = _common.GetUserConnections(_currentСlient.Id).ToList();
+            foreach (var userConnection in userConnections)
+            {
+                Clients.Add(userConnection.Participant);
+            }
+            
         }
 
         private void StartTcpClient()
@@ -82,6 +96,7 @@ namespace MicroTcp.Client
             {
                 while (_isConnected)
                 {
+
                     String sDataIncomming = _sReader.ReadLine();
                     if (string.IsNullOrWhiteSpace(sDataIncomming))
                     {
@@ -156,6 +171,10 @@ namespace MicroTcp.Client
 
         }
 
+        private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
 

@@ -9,13 +9,14 @@ namespace MicroTcp.DAL.Entities
 {
     public class Message
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Text { get; set; }
         public int FromPort { get; set; }
         public int ToPort { get; set; }
-        public string ClientId { get; set; }
+        public Client Client { get; set; }
+        public Conversation Conversation { get; set; }
         public MessageType MessageType { get; set; }
-
-
+        public DateTime PostingDateTime { get; set; }
+        
     }
 }

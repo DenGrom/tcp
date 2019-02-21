@@ -41,5 +41,11 @@ namespace MicroTcp.BLL
             var client = _clientRepository.SignIn(nickName, password);
             return client;
         }
+
+        public IQueryable<UserConnection> GetUserConnections(int id)
+        {
+            var userConnections = _clientRepository.GetUserConnections(id);
+            return userConnections; ;
+        }
     }
 }
