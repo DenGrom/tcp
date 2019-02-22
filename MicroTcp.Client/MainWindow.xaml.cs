@@ -21,22 +21,20 @@ using Newtonsoft.Json;
 using MicroTcp.DAL.Entities;
 using MicroTcp.DAL.Entities.Enums;
 using System.Collections.ObjectModel;
+using MicroTcp.ClientConnection;
 
 namespace MicroTcp.Client
 {
     public partial class MainWindow : Window
     {
-        private TcpClient _client;
+        
         public static DAL.Entities.Client _currentСlient;
-
-        private StreamReader _sReader;
-        private StreamWriter _sWriter;
         private int _portNumber = 5555;
-        private bool _isAuthenticated;
+        private TcpClientConnection _clientTcp;
         private BLL.Common _common;
         ObservableCollection<DAL.Entities.Client>  Clients;
 
-        private Boolean _isConnected;
+        
         public MainWindow()
         {
             ModalWindow modalWindow = new ModalWindow();
@@ -51,8 +49,11 @@ namespace MicroTcp.Client
                 InitializeComponent();
                 _common = new BLL.Common();
                 Clients = new ObservableCollection<DAL.Entities.Client>();
+                _clientTcp = new TcpClientConnection();
+                //_clientTcp.OnMessage += OnMessage;
                 UpdateСlientData();
-                StartTcpClient();
+                _clientTcp.StartTcpClient(_portNumber);
+
             }
 
         }
@@ -72,70 +73,12 @@ namespace MicroTcp.Client
             
         }
 
-        private void StartTcpClient()
-        {
-            var ipPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), _portNumber);
 
-            _client = new TcpClient();
-            _client.Connect(ipPoint);
-
-            _sReader = new StreamReader(_client.GetStream(), Encoding.ASCII);
-            _sWriter = new StreamWriter(_client.GetStream(), Encoding.ASCII);
-            _isConnected = true;
-            HandleCommunication();
-            if(!_isAuthenticated)
-            {
-                SentMessage(0, textSent.Text, MessageType.Authenticate);
-            }
-            
-        }
-
-        public void HandleCommunication()
-        {
-            new Thread(() =>
-            {
-                while (_isConnected)
-                {
-
-                    String sDataIncomming = _sReader.ReadLine();
-                    if (string.IsNullOrWhiteSpace(sDataIncomming))
-                    {
-                        continue;
-                    }
-                    var message = JsonConvert.DeserializeObject<Message>(sDataIncomming);
-                    if (message == null)
-                    {
-                        continue;
-                    }
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        if(message.MessageType == MessageType.Authenticate)
-                        {
-                            textBox.Text = $"You are conected to port{message.Text}";
-                            int toPort = 0;
-                            if(Int32.TryParse(message.Text, out toPort))
-                            {
-                                _isConnected = false;
-                                _client.Close();
-                                _portNumber = toPort;
-                                _isAuthenticated = true;
-                                StartTcpClient();
-                            }
-
-                        }
-                        if (message.MessageType == MessageType.ToAnotherClient)
-                        {
-                            textBox.Text =  $"{textBox.Text}. New text {message.Text}";
-                        }
-                    });
-                }
-            }).Start();
-
-        }
 
         private void btn_Sent_Click(object sender, RoutedEventArgs e)
         {
-            if (!_isAuthenticated || string.IsNullOrWhiteSpace(textSent.Text))
+            var isAuthenticated = _clientTcp.IsAuthenticated();
+            if (!isAuthenticated || string.IsNullOrWhiteSpace(textSent.Text))
             {
                 return;
             }
@@ -145,26 +88,16 @@ namespace MicroTcp.Client
                 var toPortsString = textSent.Text.Replace("to ports:", string.Empty);
                 Int32.TryParse(toPortsString, out toPort);
             }
-            SentMessage(toPort, textSent.Text, MessageType.ToAnotherClient);
-        }
-
-        private void SentMessage(int toPort, string text, MessageType messageType)
-        {
-            var message = new Message
-            {
-                Text = text,
-                FromPort = _portNumber,
-                ToPort = toPort,
-                MessageType = messageType
-            };
-
-            string messageJson = JsonConvert.SerializeObject(message);
-
-
-            _sWriter.WriteLine(messageJson);
+            _clientTcp.SentMessage(toPort, textSent.Text, MessageType.ToAnotherClient);
             textSent.Text = string.Empty;
-            _sWriter.Flush();
         }
+
+        
+
+        //private void OnMessage(object sender, string e)
+        //{
+        //    textSent.Text = e;
+        //}
 
         private void btn_Add_Click(object sender, RoutedEventArgs e)
         {
