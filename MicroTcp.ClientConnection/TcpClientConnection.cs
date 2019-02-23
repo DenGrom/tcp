@@ -1,4 +1,5 @@
-﻿using MicroTcp.DAL.Entities;
+﻿using MicroTcp.BLL.Models;
+using MicroTcp.DAL.Entities;
 using MicroTcp.DAL.Entities.Enums;
 using Newtonsoft.Json;
 using System;
@@ -21,7 +22,7 @@ namespace MicroTcp.ClientConnection
         private int _portNumber;
         private bool _isAuthenticated;
         private Boolean _isConnected;
-        //public event EventHandler<string> OnMessage;
+        public event EventHandler<MessageEventArgsModel> OnMessage;
         public void StartTcpClient(int portNumber)
         {
             _portNumber = portNumber;
@@ -77,7 +78,8 @@ namespace MicroTcp.ClientConnection
                     if (message.MessageType == MessageType.ToAnotherClient)
                     {
                         //textBox.Text = $"{textBox.Text}. New text {message.Text}";
-                        //OnMessage(this , message.Text);
+
+                        OnMessage(this, new MessageEventArgsModel(message.Text) );
                     }
                     //});
                 }

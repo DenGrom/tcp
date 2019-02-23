@@ -22,6 +22,7 @@ using MicroTcp.DAL.Entities;
 using MicroTcp.DAL.Entities.Enums;
 using System.Collections.ObjectModel;
 using MicroTcp.ClientConnection;
+using MicroTcp.BLL.Models;
 
 namespace MicroTcp.Client
 {
@@ -50,7 +51,7 @@ namespace MicroTcp.Client
                 _common = new BLL.Common();
                 Clients = new ObservableCollection<DAL.Entities.Client>();
                 _clientTcp = new TcpClientConnection();
-                //_clientTcp.OnMessage += OnMessage;
+                _clientTcp.OnMessage += SetMessage;
                 UpdateСlientData();
                 _clientTcp.StartTcpClient(_portNumber);
 
@@ -92,12 +93,15 @@ namespace MicroTcp.Client
             textSent.Text = string.Empty;
         }
 
-        
 
-        //private void OnMessage(object sender, string e)
-        //{
-        //    textSent.Text = e;
-        //}
+        private void SetMessage(object sender, MessageEventArgsModel e)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                textBox.Text = e.Text;
+            });
+            
+        }
 
         private void btn_Add_Click(object sender, RoutedEventArgs e)
         {

@@ -51,6 +51,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MicroTcp.BLL\MicroTcp.BLL.csproj">
+      <Project>{97E8A439-CE3C-40D1-9759-88369B7FD174}</Project>
+      <Name>MicroTcp.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MicroTcp.DAL\MicroTcp.DAL.csproj">
       <Project>{A8EB998A-846F-4313-A228-9A2FD6B0B7F2}</Project>
       <Name>MicroTcp.DAL</Name>
