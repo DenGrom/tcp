@@ -51,6 +51,9 @@
     <Compile Include="Models\ConversationModel.cs" />
     <Compile Include="Models\HandleClientModel.cs" />
     <Compile Include="Models\MessageEventArgsModel.cs" />
+    <Compile Include="Models\ViewModels\DelegateCommand.cs" />
+    <Compile Include="Models\ViewModels\ObservableObject.cs" />
+    <Compile Include="Models\ViewModels\Presenter.cs" />
     <Compile Include="Models\ValidatePortModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

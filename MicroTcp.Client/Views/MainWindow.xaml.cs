@@ -1,12 +1,11 @@
-﻿using MicroTcp.BLL;
+﻿using MicroTcp.BLL.Models;
+using MicroTcp.ClientConnection;
+using MicroTcp.DAL.Entities.Enums;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,27 +14,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Newtonsoft.Json;
-using MicroTcp.DAL.Entities;
-using MicroTcp.DAL.Entities.Enums;
-using System.Collections.ObjectModel;
-using MicroTcp.ClientConnection;
-using MicroTcp.BLL.Models;
 
-namespace MicroTcp.Client
+namespace MicroTcp.Client.Views
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
-        
         public static DAL.Entities.Client _currentСlient;
         private int _portNumber = 5555;
         private TcpClientConnection _clientTcp;
         private BLL.Common _common;
         ObservableCollection<ConversationModel> Conversations;
 
-        
+
         public MainWindow()
         {
             ModalWindow modalWindow = new ModalWindow();
@@ -69,17 +63,18 @@ namespace MicroTcp.Client
             var conversations = _common.GetConversationsByClientId(_currentСlient.Id).ToList();
             foreach (var conversation in conversations)
             {
-                if(conversation == null)
+                if (conversation == null)
                 {
                     continue;
                 }
-                Conversations.Add(new ConversationModel {
+                Conversations.Add(new ConversationModel
+                {
                     Id = conversation.Id,
                     Name = conversation.Name,
                     StartDateTime = conversation.StartDateTime
                 });
             }
-            
+
         }
 
         private void btn_Sent_Click(object sender, RoutedEventArgs e)
@@ -105,7 +100,6 @@ namespace MicroTcp.Client
             {
                 textBox.Text = e.Text;
             });
-            
         }
 
         private void btn_Add_Click(object sender, RoutedEventArgs e)
@@ -119,4 +113,3 @@ namespace MicroTcp.Client
         }
     }
 }
-
