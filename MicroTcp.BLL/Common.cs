@@ -47,5 +47,12 @@ namespace MicroTcp.BLL
             var userConnections = _clientRepository.GetUserConnections(id);
             return userConnections; ;
         }
+
+        public IQueryable<Conversation> GetConversationsByClientId(int id)
+        {
+            var conversation = _clientRepository.GetConversationsByClientId(id);
+            return conversation;
+        }
+
     }
 }

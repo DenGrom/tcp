@@ -33,7 +33,7 @@ namespace MicroTcp.Client
         private int _portNumber = 5555;
         private TcpClientConnection _clientTcp;
         private BLL.Common _common;
-        ObservableCollection<DAL.Entities.Client>  Clients;
+        ObservableCollection<ConversationModel> Conversations;
 
         
         public MainWindow()
@@ -49,7 +49,7 @@ namespace MicroTcp.Client
             {
                 InitializeComponent();
                 _common = new BLL.Common();
-                Clients = new ObservableCollection<DAL.Entities.Client>();
+                Conversations = new ObservableCollection<ConversationModel>();
                 _clientTcp = new TcpClientConnection();
                 _clientTcp.OnMessage += SetMessage;
                 UpdateСlientData();
@@ -66,15 +66,21 @@ namespace MicroTcp.Client
             // {
             //     listBox.Items.Add(userConnection);
             // }
-            var userConnections = _common.GetUserConnections(_currentСlient.Id).ToList();
-            foreach (var userConnection in userConnections)
+            var conversations = _common.GetConversationsByClientId(_currentСlient.Id).ToList();
+            foreach (var conversation in conversations)
             {
-                Clients.Add(userConnection.Participant);
+                if(conversation == null)
+                {
+                    continue;
+                }
+                Conversations.Add(new ConversationModel {
+                    Id = conversation.Id,
+                    Name = conversation.Name,
+                    StartDateTime = conversation.StartDateTime
+                });
             }
             
         }
-
-
 
         private void btn_Sent_Click(object sender, RoutedEventArgs e)
         {
@@ -92,7 +98,6 @@ namespace MicroTcp.Client
             _clientTcp.SentMessage(toPort, textSent.Text, MessageType.ToAnotherClient);
             textSent.Text = string.Empty;
         }
-
 
         private void SetMessage(object sender, MessageEventArgsModel e)
         {

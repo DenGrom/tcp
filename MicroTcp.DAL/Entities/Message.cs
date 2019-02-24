@@ -13,8 +13,8 @@ namespace MicroTcp.DAL.Entities
         public string Text { get; set; }
         public int FromPort { get; set; }
         public int ToPort { get; set; }
-        public Client Client { get; set; }
-        public Conversation Conversation { get; set; }
+        public virtual Client Client { get; set; }
+        public virtual Conversation Conversation { get; set; }
         public MessageType MessageType { get; set; }
         public DateTime PostingDateTime { get; set; }
         

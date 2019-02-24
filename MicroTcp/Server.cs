@@ -97,7 +97,7 @@ namespace MicroTcp
                     SetEmptyPortNumber();
                     SentToClient(sWriter, 0, _emptyPortNumber.ToString(), MessageType.Authenticate);
                 }
-                if (message.ToPort != 0)
+                if (message.MessageType == MessageType.ToAnotherClient)
                 {
                     var messageRecipient = _clients.FirstOrDefault(x => x.Port == message.ToPort);
                     if(messageRecipient == null)

@@ -48,6 +48,7 @@
     <Compile Include="ConcurrentList.cs" />
     <Compile Include="Models\ClientListModel.cs" />
     <Compile Include="Models\ClientModel.cs" />
+    <Compile Include="Models\ConversationModel.cs" />
     <Compile Include="Models\HandleClientModel.cs" />
     <Compile Include="Models\MessageEventArgsModel.cs" />
     <Compile Include="Models\ValidatePortModel.cs" />

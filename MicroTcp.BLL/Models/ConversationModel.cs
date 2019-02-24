@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MicroTcp.DAL.Entities
+namespace MicroTcp.BLL.Models
 {
-    public class Conversation
+    public class ConversationModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
