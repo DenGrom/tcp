@@ -74,7 +74,7 @@ namespace MicroTcp.Client.Views
                     StartDateTime = conversation.StartDateTime
                 });
             }
-
+            listBox.ItemsSource = Conversations;
         }
 
         private void btn_Sent_Click(object sender, RoutedEventArgs e)
