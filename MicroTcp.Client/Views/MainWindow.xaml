@@ -12,7 +12,12 @@
             <Button x:Name="btn_Add" Content="Add" Margin="105,265,24,9" Click="btn_Add_Click"/>
         </Border>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="205" Margin="215,10,0,0" VerticalAlignment="Top" Width="292">
-            <TextBox x:Name="textBox" TextWrapping="Wrap" Text="TextBox" Margin="0,26,0,0"/>
+            <!--<TextBox x:Name="textBox" TextWrapping="Wrap" Text="TextBox" Margin="0,26,0,0"/>-->
+            <ListBox x:Name="textBox" ItemsSource="{Binding Messages}" 
+             
+             SelectedValue="Id" DisplayMemberPath="Text"
+                 HorizontalAlignment="Left" Height="195" Margin="9,9,0,-1" 
+                 VerticalAlignment="Top" Width="272" SelectionChanged="listBox_SelectionChanged"/>
         </Border>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="67" Margin="215,215,0,0" VerticalAlignment="Top" Width="292">
             <TextBox x:Name="textSent" TextWrapping="Wrap" Text="type..."/>

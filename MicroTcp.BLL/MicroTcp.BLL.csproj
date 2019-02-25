@@ -51,6 +51,8 @@
     <Compile Include="Models\ConversationModel.cs" />
     <Compile Include="Models\HandleClientModel.cs" />
     <Compile Include="Models\MessageEventArgsModel.cs" />
+    <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Models\MessagesModels.cs" />
     <Compile Include="Models\ViewModels\DelegateCommand.cs" />
     <Compile Include="Models\ViewModels\ObservableObject.cs" />
     <Compile Include="Models\ViewModels\Presenter.cs" />

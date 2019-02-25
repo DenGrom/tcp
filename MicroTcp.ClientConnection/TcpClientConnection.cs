@@ -77,9 +77,11 @@ namespace MicroTcp.ClientConnection
                     }
                     if (message.MessageType == MessageType.ToAnotherClient)
                     {
-                        //textBox.Text = $"{textBox.Text}. New text {message.Text}";
-
-                        OnMessage(this, new MessageEventArgsModel(message.Text) );
+                        OnMessage(this, new MessageEventArgsModel(message.Text, 
+                            message.Conversation?.Id ?? 0,
+                            message.Client?.Id ?? 0,
+                            message.Id
+                            ) );
                     }
                     //});
                 }

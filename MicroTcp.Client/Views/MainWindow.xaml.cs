@@ -29,6 +29,9 @@ namespace MicroTcp.Client.Views
         private BLL.Common _common;
         ObservableCollection<ConversationModel> Conversations;
 
+        List<MessagesModels> MessagesModels;
+        ObservableCollection<MessageModel> Messages;
+
 
         public MainWindow()
         {
@@ -44,6 +47,7 @@ namespace MicroTcp.Client.Views
                 InitializeComponent();
                 _common = new BLL.Common();
                 Conversations = new ObservableCollection<ConversationModel>();
+                Messages = new ObservableCollection<MessageModel>();
                 _clientTcp = new TcpClientConnection();
                 _clientTcp.OnMessage += SetMessage;
                 UpdateСlientData();
@@ -93,7 +97,14 @@ namespace MicroTcp.Client.Views
         {
             this.Dispatcher.Invoke(() =>
             {
-                textBox.Text = e.Text;
+                var newMessage = new MessageModel
+                {
+                    Id = e.Id,
+                    Client = new ClientModel { Id = e.ClientId },
+                    Conversation = new ConversationModel { Id = e.ConversationId },
+                    Text = e.Text
+                };
+                //textBox.Text = e.Text;
             });
         }
 
