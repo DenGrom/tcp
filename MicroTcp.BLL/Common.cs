@@ -50,9 +50,14 @@ namespace MicroTcp.BLL
 
         public IQueryable<Conversation> GetConversationsByClientId(int id)
         {
-            var conversation = _clientRepository.GetConversationsByClientId(id);
-            return conversation;
+            var conversations = _clientRepository.GetConversationsByClientId(id);
+            return conversations;
         }
 
+        public IQueryable<Message> GetMassagesByConversationId(int id)
+        {
+            var massages = _clientRepository.GetMassagesByConversationId(id);
+            return massages;
+        }
     }
 }

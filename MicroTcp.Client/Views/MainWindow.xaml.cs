@@ -55,11 +55,6 @@ namespace MicroTcp.Client.Views
 
         private void UpdateСlientData()
         {
-            //var userConnections = _common.GetUserConnections(_currentСlient.Id).ToList();
-            // foreach (var userConnection in userConnections)
-            // {
-            //     listBox.Items.Add(userConnection);
-            // }
             var conversations = _common.GetConversationsByClientId(_currentСlient.Id).ToList();
             foreach (var conversation in conversations)
             {
@@ -109,6 +104,8 @@ namespace MicroTcp.Client.Views
 
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var conversationModel = (ConversationModel)e.AddedItems[0];
+            var massages = _common.GetMassagesByConversationId(conversationModel?.Id ?? 0).ToList();
 
         }
     }

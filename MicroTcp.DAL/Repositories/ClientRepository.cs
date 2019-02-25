@@ -66,5 +66,12 @@ namespace MicroTcp.DAL.Repositories
                      .Where(x => x.Client.Id == id).Select(x => x.Conversation);
             return conversation;
         }
+
+        public IQueryable<Message> GetMassagesByConversationId(int id)
+        {
+            var messages = _context.Messages
+                     .Where(x => x.Client.Id == id);
+            return messages;
+        }
     }
 }
