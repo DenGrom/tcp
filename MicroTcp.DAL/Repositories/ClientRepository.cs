@@ -73,5 +73,12 @@ namespace MicroTcp.DAL.Repositories
                      .Where(x => x.Client.Id == id);
             return messages;
         }
+
+        public int SaveMessage(Message entityMessage)
+        {
+            _context.Messages.Add(entityMessage);
+            _context.SaveChanges();
+            return entityMessage.Id;
+        }
     }
 }

@@ -85,7 +85,7 @@ namespace MicroTcp
 
                     continue;
                 }
-                var message = JsonConvert.DeserializeObject<Message>(messageJson);
+                var message = JsonConvert.DeserializeObject<MessageEventArgsModel>(messageJson);
                 if (message == null)
                 {
                     continue;
@@ -112,7 +112,7 @@ namespace MicroTcp
 
         private static void SentToClient(StreamWriter sWriter, int toPort, string text, MessageType messageType)
         {
-            var message = new Message
+            var message = new MessageEventArgsModel
             {
                 Text = text,
                 FromPort = 0,

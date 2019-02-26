@@ -30,7 +30,7 @@ namespace MicroTcp.Client.Views
         ObservableCollection<ConversationModel> Conversations;
 
         List<MessagesModels> MessagesModels;
-        ObservableCollection<MessageModel> Messages;
+        ObservableCollection<MessageEventArgsModel> Messages;
 
 
         public MainWindow()
@@ -47,7 +47,7 @@ namespace MicroTcp.Client.Views
                 InitializeComponent();
                 _common = new BLL.Common();
                 Conversations = new ObservableCollection<ConversationModel>();
-                Messages = new ObservableCollection<MessageModel>();
+                Messages = new ObservableCollection<MessageEventArgsModel>();
                 _clientTcp = new TcpClientConnection();
                 _clientTcp.OnMessage += SetMessage;
                 UpdateСlientData();
@@ -89,23 +89,31 @@ namespace MicroTcp.Client.Views
                 var toPortsString = textSent.Text.Replace("to ports:", string.Empty);
                 Int32.TryParse(toPortsString, out toPort);
             }
-            _clientTcp.SentMessage(toPort, textSent.Text, MessageType.ToAnotherClient);
-            textSent.Text = string.Empty;
+            var selectedConversation = (ConversationModel)listBox.SelectedItem ;
+            if(selectedConversation != null)
+            {
+                var message = new MessageEventArgsModel
+                {
+                    ToPort = toPort,
+                    Text = textSent.Text,
+                    MessageType = MessageType.ToAnotherClient,
+                    ConversationId = selectedConversation.Id,
+                    ClientId = _currentСlient.Id,
+
+                };
+                var messageId = _common.SaveMessage(message);
+                _clientTcp.SentMessage(message);
+                textSent.Text = string.Empty;
+            }
         }
 
         private void SetMessage(object sender, MessageEventArgsModel e)
         {
-            this.Dispatcher.Invoke(() =>
+            Messages.Add(e);
+            this.Dispatcher.Invoke((Action)(() =>
             {
-                var newMessage = new MessageModel
-                {
-                    Id = e.Id,
-                    Client = new ClientModel { Id = e.ClientId },
-                    Conversation = new ConversationModel { Id = e.ConversationId },
-                    Text = e.Text
-                };
-                //textBox.Text = e.Text;
-            });
+                textBox.ItemsSource = Messages;
+            }));
         }
 
         private void btn_Add_Click(object sender, RoutedEventArgs e)
@@ -119,5 +127,10 @@ namespace MicroTcp.Client.Views
             var massages = _common.GetMassagesByConversationId(conversationModel?.Id ?? 0).ToList();
 
         }
+        private void textBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        
     }
 }

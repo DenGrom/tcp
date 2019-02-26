@@ -37,7 +37,11 @@ namespace MicroTcp.ClientConnection
             HandleCommunication();
             if (!_isAuthenticated)
             {
-                SentMessage(0, string.Empty, MessageType.Authenticate);
+                var message = new MessageEventArgsModel {
+                    ToPort = 0,
+                    MessageType = MessageType.Authenticate
+                };
+                SentMessage(message);
             }
 
         }
@@ -54,13 +58,11 @@ namespace MicroTcp.ClientConnection
                     {
                         continue;
                     }
-                    var message = JsonConvert.DeserializeObject<Message>(sDataIncomming);
+                    var message = JsonConvert.DeserializeObject<MessageEventArgsModel>(sDataIncomming);
                     if (message == null)
                     {
                         continue;
                     }
-                    //this.Dispatcher.Invoke(() =>
-                    //{
                     if (message.MessageType == MessageType.Authenticate)
                     {
                         //textBox.Text = $"You are conected to port{message.Text}";
@@ -77,31 +79,16 @@ namespace MicroTcp.ClientConnection
                     }
                     if (message.MessageType == MessageType.ToAnotherClient)
                     {
-                        OnMessage(this, new MessageEventArgsModel(message.Text, 
-                            message.Conversation?.Id ?? 0,
-                            message.Client?.Id ?? 0,
-                            message.Id
-                            ) );
+                        OnMessage(this, message);
                     }
-                    //});
                 }
             }).Start();
 
         }
 
-        public void SentMessage(int toPort, string text, MessageType messageType)
+        public void SentMessage(MessageEventArgsModel messageEventArgsModel)
         {
-            var message = new Message
-            {
-                Text = text,
-                FromPort = _portNumber,
-                ToPort = toPort,
-                MessageType = messageType
-            };
-
-            string messageJson = JsonConvert.SerializeObject(message);
-
-
+            string messageJson = JsonConvert.SerializeObject(messageEventArgsModel);
             _sWriter.WriteLine(messageJson);
             _sWriter.Flush();
         }

@@ -59,5 +59,20 @@ namespace MicroTcp.BLL
             var massages = _clientRepository.GetMassagesByConversationId(id);
             return massages;
         }
+
+        public int SaveMessage(MessageEventArgsModel message)
+        {
+            var entityMessage = new Message {
+                Client = new Client { Id = message.ClientId },
+                FromPort = message.FromPort,
+                Conversation = new Conversation { Id = message.ConversationId },
+                MessageType = message.MessageType,
+                PostingDateTime = DateTime.Now,
+                Text = message.Text,
+                ToPort = message.ToPort
+            };
+            var messageId = _clientRepository.SaveMessage(entityMessage);
+            return messageId;
+        }
     }
 }
