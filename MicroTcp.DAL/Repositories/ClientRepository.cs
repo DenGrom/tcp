@@ -53,12 +53,12 @@ namespace MicroTcp.DAL.Repositories
             }
         }
 
-        public IQueryable<UserConnection> GetUserConnections(int id)
-        {
-            var client = _context.UserConnections
-                     .Where(x => x.Owner.Id == id);
-            return client;
-        }
+        //public IQueryable<UserConnection> GetUserConnections(int id)
+        //{
+        //    var client = _context.UserConnections
+        //             .Where(x => x.Owner.Id == id);
+        //    return client;
+        //}
 
         public IQueryable<Conversation> GetConversationsByClientId(int id)
         {
@@ -74,9 +74,28 @@ namespace MicroTcp.DAL.Repositories
             return messages;
         }
 
+        public Client GetClientById(int id)
+        {
+            var client = _context.Clients
+                     .Where(x => x.Id == id).FirstOrDefault();
+            return client;
+        }
+
+
+        public Conversation GetConversationById(int id)
+        {
+            var conversation = _context.Conversations
+                     .Where(x => x.Id == id).FirstOrDefault();
+            return conversation;
+        }
+
         public int SaveMessage(Message entityMessage)
         {
-            _context.Messages.Add(entityMessage);
+            var client = GetClientById(entityMessage?.Client?.Id ?? 0);
+            entityMessage.Client = client;
+            var conversation = GetConversationById(entityMessage?.Client?.Id ?? 0);
+            entityMessage.Conversation = conversation;
+            _context.Messages.Add(entityMessage); 
             _context.SaveChanges();
             return entityMessage.Id;
         }

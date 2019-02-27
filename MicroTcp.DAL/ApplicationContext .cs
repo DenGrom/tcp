@@ -17,6 +17,10 @@ namespace MicroTcp.DAL
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<ConversationClient> ConversationClients { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<UserConnection> UserConnections { get; set; }
+        //public DbSet<UserConnection> UserConnections { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Properties<DateTime>().Configure(c => c.HasColumnType("datetime2"));
+        }
     }
 }

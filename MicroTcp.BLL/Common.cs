@@ -42,11 +42,11 @@ namespace MicroTcp.BLL
             return client;
         }
 
-        public IQueryable<UserConnection> GetUserConnections(int id)
-        {
-            var userConnections = _clientRepository.GetUserConnections(id);
-            return userConnections; ;
-        }
+        //public IQueryable<UserConnection> GetUserConnections(int id)
+        //{
+        //    var userConnections = _clientRepository.GetUserConnections(id);
+        //    return userConnections; ;
+        //}
 
         public IQueryable<Conversation> GetConversationsByClientId(int id)
         {
@@ -66,8 +66,8 @@ namespace MicroTcp.BLL
                 Client = new Client { Id = message.ClientId },
                 FromPort = message.FromPort,
                 Conversation = new Conversation { Id = message.ConversationId },
-                MessageType = message.MessageType,
-                PostingDateTime = DateTime.Now,
+                MessageType = (int)message.MessageType,
+                PostingDateTime = message.PostingDateTime,
                 Text = message.Text,
                 ToPort = message.ToPort
             };

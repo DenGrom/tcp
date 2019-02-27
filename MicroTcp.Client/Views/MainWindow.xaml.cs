@@ -28,8 +28,8 @@ namespace MicroTcp.Client.Views
         private TcpClientConnection _clientTcp;
         private BLL.Common _common;
         ObservableCollection<ConversationModel> Conversations;
-
-        List<MessagesModels> MessagesModels;
+        //public event EventHandler OnMessagesChange;
+        //List<MessagesModels> MessagesModels;
         ObservableCollection<MessageEventArgsModel> Messages;
 
 
@@ -50,6 +50,7 @@ namespace MicroTcp.Client.Views
                 Messages = new ObservableCollection<MessageEventArgsModel>();
                 _clientTcp = new TcpClientConnection();
                 _clientTcp.OnMessage += SetMessage;
+
                 UpdateСlientData();
                 _clientTcp.StartTcpClient(_portNumber);
 
@@ -99,9 +100,11 @@ namespace MicroTcp.Client.Views
                     MessageType = MessageType.ToAnotherClient,
                     ConversationId = selectedConversation.Id,
                     ClientId = _currentСlient.Id,
+                    PostingDateTime = DateTime.Now
 
                 };
                 var messageId = _common.SaveMessage(message);
+                message.Id = messageId;
                 _clientTcp.SentMessage(message);
                 textSent.Text = string.Empty;
             }
@@ -109,12 +112,21 @@ namespace MicroTcp.Client.Views
 
         private void SetMessage(object sender, MessageEventArgsModel e)
         {
-            Messages.Add(e);
             this.Dispatcher.Invoke((Action)(() =>
             {
+                Messages.Add(new MessageEventArgsModel
+                {
+                    Id = e.Id,
+                    Text = e.Text
+                });
                 textBox.ItemsSource = Messages;
             }));
         }
+
+        //static void a_MultipleOfFiveReached(object sender, EventArgs e)
+        //{
+        //    Console.WriteLine("Multiple of five reached!");
+        //}
 
         private void btn_Add_Click(object sender, RoutedEventArgs e)
         {
@@ -123,9 +135,22 @@ namespace MicroTcp.Client.Views
 
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Messages.Clear();
             var conversationModel = (ConversationModel)e.AddedItems[0];
             var massages = _common.GetMassagesByConversationId(conversationModel?.Id ?? 0).ToList();
-
+            foreach (var message in massages)
+            {
+                if (message == null)
+                {
+                    continue;
+                }
+                Messages.Add(new MessageEventArgsModel
+                {
+                    Id = message.Id,
+                    Text = message.Text
+                });
+            }
+            textBox.ItemsSource = Messages;
         }
         private void textBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

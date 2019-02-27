@@ -105,7 +105,7 @@ namespace MicroTcp
                         continue;
                     }
                     var sWriterRecipient = new StreamWriter(messageRecipient.TcpClient.GetStream(), Encoding.ASCII);
-                    SentToClient(sWriterRecipient, 0, string.Empty, MessageType.ToAnotherClient);
+                    SentToClient(sWriterRecipient, 0, message.Text, MessageType.ToAnotherClient);
                 }
             }
         }
