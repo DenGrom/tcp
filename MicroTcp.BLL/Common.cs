@@ -74,5 +74,11 @@ namespace MicroTcp.BLL
             var messageId = _clientRepository.SaveMessage(entityMessage);
             return messageId;
         }
+
+        public IQueryable<Client> GetClientsByConversationId(int conversationId)
+        {
+            var clients = _clientRepository.GetClientsByConversationId(conversationId);
+            return clients;
+        }
     }
 }

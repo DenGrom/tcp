@@ -23,10 +23,13 @@ namespace MicroTcp
         public static List<ClientModel> _clients;
         public static int _startsPortNumber = 5555;
         public static int _emptyPortNumber;
+        public static int _newClientId;
+        private static BLL.Common _common;
         static void Main()
         {
             _tcpServers = new List<TcpListener>();
             _clients = new List<ClientModel>();
+            _common = new Common();
             StartNewTcpServerTread();
         }
         private static void StartNewTcpServerTread()
@@ -70,10 +73,12 @@ namespace MicroTcp
                 SetEmptyPortNumber();
                 var client = new ClientModel
                 {
+                    ClientId = _newClientId,
                     Port = _emptyPortNumber,
                     TcpClient = tcpClient
                 };
                 _clients.Add(client);
+                _newClientId = 0;
             }
 
             while (bClientConnected)
@@ -82,7 +87,6 @@ namespace MicroTcp
                 messageJson = sReader.ReadLine();
                 if (string.IsNullOrWhiteSpace(messageJson) )
                 {
-
                     continue;
                 }
                 var message = JsonConvert.DeserializeObject<MessageEventArgsModel>(messageJson);
@@ -93,6 +97,7 @@ namespace MicroTcp
                 Console.WriteLine("From Client; " + messageJson);
                 if (message.MessageType == MessageType.Authenticate)
                 {
+                    _newClientId = message.ClientId;
                     StartNewTcpServerTread();
                     SetEmptyPortNumber();
                     message.Text = _emptyPortNumber.ToString();
@@ -100,14 +105,26 @@ namespace MicroTcp
                 }
                 if (message.MessageType == MessageType.ToAnotherClient)
                 {
-                    var messageRecipient = _clients.FirstOrDefault(x => x.Port == message.ToPort);
-                    if(messageRecipient == null)
+                    var allClients = _common.GetClientsByConversationId(message.ConversationId).ToList();
+                    foreach(var client in allClients)
                     {
-                        continue;
+                        var messageRecipient = _clients.FirstOrDefault(x => x.ClientId == client.Id);
+                        if (messageRecipient == null || message.ConversationId == default(int))
+                        {
+                            continue;
+                        }
+                        var sWriterRecipient = new StreamWriter(messageRecipient.TcpClient.GetStream(), Encoding.ASCII);
+                        SentToClient(sWriterRecipient, message);
                     }
-                    var sWriterRecipient = new StreamWriter(messageRecipient.TcpClient.GetStream(), Encoding.ASCII);
-                    SentToClient(sWriterRecipient, message);
                 }
+            }
+        }
+
+        private static void SetClientId(ClientModel x, MessageEventArgsModel message)
+        {
+            if(x.Port == _startsPortNumber)
+            {
+                x.ClientId = message.ClientId;
             }
         }
 

@@ -9,7 +9,7 @@ namespace MicroTcp.BLL.Models
 {
     public class ClientModel
     {
-        public int Id { get; set; }
+        public int ClientId { get; set; }
         public int Port { get; set; }
         public TcpClient TcpClient { get; set; }
     }

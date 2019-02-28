@@ -99,5 +99,19 @@ namespace MicroTcp.DAL.Repositories
             _context.SaveChanges();
             return entityMessage.Id;
         }
+
+        public IQueryable<Client> GetClientRecipientsByConversationId(int conversationId, int clientId)
+        {
+            var clients = GetClientsByConversationId(conversationId).
+                    Where(x => x.Id != clientId);
+            return clients;
+        }
+
+        public IQueryable<Client> GetClientsByConversationId(int conversationId)
+        {
+            var clients = _context.ConversationClients
+         .Where(x => x.Conversation.Id == conversationId).Select(x => x.Client);
+            return clients;
+        }
     }
 }

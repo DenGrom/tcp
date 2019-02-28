@@ -50,7 +50,7 @@ namespace MicroTcp.Client.Views
                 Messages = new ObservableCollection<MessageEventArgsModel>();
                 _clientTcp = new TcpClientConnection();
                 _clientTcp.OnMessage += SetMessage;
-
+                _clientTcp.SentStartMessage += SentStartMessage;
                 UpdateСlientData();
                 _clientTcp.StartTcpClient(_portNumber);
 
@@ -101,7 +101,6 @@ namespace MicroTcp.Client.Views
                     ConversationId = selectedConversation.Id,
                     ClientId = _currentСlient.Id,
                     PostingDateTime = DateTime.Now
-
                 };
                 var messageId = _common.SaveMessage(message);
                 message.Id = messageId;
@@ -119,6 +118,13 @@ namespace MicroTcp.Client.Views
             }));
         }
 
+        private void SentStartMessage(object sender, MessageEventArgsModel e)
+        {
+            e.ClientId = _currentСlient.Id;
+            e.MessageType = MessageType.Authenticate;
+            e.PostingDateTime = DateTime.Now;
+            _clientTcp.SentMessage(e);
+        }
         //static void a_MultipleOfFiveReached(object sender, EventArgs e)
         //{
         //    Console.WriteLine("Multiple of five reached!");

@@ -23,6 +23,7 @@ namespace MicroTcp.ClientConnection
         private bool _isAuthenticated;
         private Boolean _isConnected;
         public event EventHandler<MessageEventArgsModel> OnMessage;
+        public event EventHandler<MessageEventArgsModel> SentStartMessage;
         public void StartTcpClient(int portNumber)
         {
             _portNumber = portNumber;
@@ -38,10 +39,9 @@ namespace MicroTcp.ClientConnection
             if (!_isAuthenticated)
             {
                 var message = new MessageEventArgsModel {
-                    ToPort = 0,
-                    MessageType = MessageType.Authenticate
                 };
-                SentMessage(message);
+                //SentMessage(message);
+                SentStartMessage(this, message);
             }
 
         }
