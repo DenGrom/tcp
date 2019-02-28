@@ -84,18 +84,12 @@ namespace MicroTcp.Client.Views
             {
                 return;
             }
-            var toPort = 0;
-            if (textSent.Text.Contains("to ports:"))
-            {
-                var toPortsString = textSent.Text.Replace("to ports:", string.Empty);
-                Int32.TryParse(toPortsString, out toPort);
-            }
+
             var selectedConversation = (ConversationModel)listBox.SelectedItem ;
             if(selectedConversation != null)
             {
                 var message = new MessageEventArgsModel
                 {
-                    ToPort = toPort,
                     Text = textSent.Text,
                     MessageType = MessageType.ToAnotherClient,
                     ConversationId = selectedConversation.Id,
