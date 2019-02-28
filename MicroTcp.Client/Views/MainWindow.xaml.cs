@@ -114,11 +114,7 @@ namespace MicroTcp.Client.Views
         {
             this.Dispatcher.Invoke((Action)(() =>
             {
-                Messages.Add(new MessageEventArgsModel
-                {
-                    Id = e.Id,
-                    Text = e.Text
-                });
+                Messages.Add(e);
                 textBox.ItemsSource = Messages;
             }));
         }

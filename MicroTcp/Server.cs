@@ -95,7 +95,8 @@ namespace MicroTcp
                 {
                     StartNewTcpServerTread();
                     SetEmptyPortNumber();
-                    SentToClient(sWriter, 0, _emptyPortNumber.ToString(), MessageType.Authenticate);
+                    message.Text = _emptyPortNumber.ToString();
+                    SentToClient(sWriter, message);
                 }
                 if (message.MessageType == MessageType.ToAnotherClient)
                 {
@@ -105,24 +106,14 @@ namespace MicroTcp
                         continue;
                     }
                     var sWriterRecipient = new StreamWriter(messageRecipient.TcpClient.GetStream(), Encoding.ASCII);
-                    SentToClient(sWriterRecipient, 0, message.Text, MessageType.ToAnotherClient);
+                    SentToClient(sWriterRecipient, message);
                 }
             }
         }
 
-        private static void SentToClient(StreamWriter sWriter, int toPort, string text, MessageType messageType)
+        private static void SentToClient(StreamWriter sWriter, MessageEventArgsModel message)
         {
-            var message = new MessageEventArgsModel
-            {
-                Text = text,
-                FromPort = 0,
-                ToPort = toPort,
-                MessageType = messageType
-            };
-
             string messageJson = JsonConvert.SerializeObject(message);
-
-
             sWriter.WriteLine(messageJson);
             sWriter.Flush();
         }
