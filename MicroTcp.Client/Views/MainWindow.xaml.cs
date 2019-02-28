@@ -119,10 +119,6 @@ namespace MicroTcp.Client.Views
             e.PostingDateTime = DateTime.Now;
             _clientTcp.SentMessage(e);
         }
-        //static void a_MultipleOfFiveReached(object sender, EventArgs e)
-        //{
-        //    Console.WriteLine("Multiple of five reached!");
-        //}
 
         private void btn_Add_Click(object sender, RoutedEventArgs e)
         {

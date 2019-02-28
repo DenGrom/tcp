@@ -9,6 +9,8 @@ namespace MicroTcp.DAL.Migrations
 
     internal sealed class Configuration : DbMigrationsConfiguration<MicroTcp.DAL.ApplicationContext>
     {
+        private const int _itemNumbers = 5;
+
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
@@ -19,7 +21,7 @@ namespace MicroTcp.DAL.Migrations
             var isClients = context.Clients.Any();
             if (!isClients)
             {
-                for(int i = 1; i < 5; i++)
+                for(int i = 1; i < _itemNumbers; i++)
                 {
                     var newClient = new Client { Id = i, NickName = i.ToString(), Password = i.ToString() };
                     context.Clients.Add(newClient);
@@ -29,7 +31,7 @@ namespace MicroTcp.DAL.Migrations
             var isConversations = context.Conversations.Any();
             if (!isConversations)
             {
-                for (int i = 1; i < 5; i++)
+                for (int i = 1; i < _itemNumbers; i++)
                 {
                     var newConversation = new Conversation { Id = i, Name = i.ToString(), StartDateTime = DateTime.Now };
                     context.Conversations.Add(newConversation);
@@ -40,12 +42,12 @@ namespace MicroTcp.DAL.Migrations
             if (!isConversationClients)
             {
                 var id = 1;
-                for (int i = 1; i < 5; i++)
+                for (int i = 1; i < _itemNumbers; i++)
                 {
                     var client = context.Clients.FirstOrDefault(x => x.Id == i);
-                    for (int k = 1; k < 5; k++)
+                    for (int k = 1; k < _itemNumbers; k++)
                     {
-                        var conversation = context.Conversations.FirstOrDefault(x => x.Id == i);
+                        var conversation = context.Conversations.FirstOrDefault(x => x.Id == k);
                         var newConversationClient = new ConversationClient
                         {
                             Id = id,
@@ -64,12 +66,12 @@ namespace MicroTcp.DAL.Migrations
             if (!isMessages)
             {
                 var id = 1;
-                for (int i = 1; i < 5; i++)
+                for (int i = 1; i < _itemNumbers; i++)
                 {
                     var client = context.Clients.FirstOrDefault(x => x.Id == i);
-                    for (int k = 1; k < 5; k++)
+                    for (int k = 1; k < _itemNumbers; k++)
                     {
-                        var conversation = context.Conversations.FirstOrDefault(x => x.Id == i);
+                        var conversation = context.Conversations.FirstOrDefault(x => x.Id == k);
                         var newMessage = new Message
                         {
                             Id = id,
