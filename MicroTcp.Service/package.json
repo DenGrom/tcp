@@ -1,0 +1,12 @@
+{
+  "name": "micro-tcp.service",
+  "version": "0.0.0",
+  "description": "MicroTcp.Service",
+  "main": "app.js",
+  "author": {
+    "name": "denisg"
+  },
+  "scripts": {
+    "debug": "DEBUG=pd* nodemon --inspect-brk --harmony --nolazy server.js -e js,mustache,json,yaml"
+  }
+}

@@ -17,6 +17,8 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupProject1", "SetupProje
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroTcp.ClientConnection", "MicroTcp.ClientConnection\MicroTcp.ClientConnection.csproj", "{71E92EAF-0023-4F9F-BF62-8E210B6D8F7B}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "MicroTcp.Service", "MicroTcp.Service\MicroTcp.Service.njsproj", "{7666EAE9-F7CC-44BC-86F0-2558E18E77C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,14 @@ Global
 		{71E92EAF-0023-4F9F-BF62-8E210B6D8F7B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{71E92EAF-0023-4F9F-BF62-8E210B6D8F7B}.Release|x86.ActiveCfg = Release|Any CPU
 		{71E92EAF-0023-4F9F-BF62-8E210B6D8F7B}.Release|x86.Build.0 = Release|Any CPU
+		{7666EAE9-F7CC-44BC-86F0-2558E18E77C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7666EAE9-F7CC-44BC-86F0-2558E18E77C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7666EAE9-F7CC-44BC-86F0-2558E18E77C5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7666EAE9-F7CC-44BC-86F0-2558E18E77C5}.Debug|x86.Build.0 = Debug|Any CPU
+		{7666EAE9-F7CC-44BC-86F0-2558E18E77C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7666EAE9-F7CC-44BC-86F0-2558E18E77C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7666EAE9-F7CC-44BC-86F0-2558E18E77C5}.Release|x86.ActiveCfg = Release|Any CPU
+		{7666EAE9-F7CC-44BC-86F0-2558E18E77C5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MicroTcp.Client"
         mc:Ignorable="d"
-        Title="Enter credentials" Height="200" Width="300">
+        Title="Enter credentials" Height="250" Width="300">
     <Grid Margin="0,0,0,0">
         <TextBox x:Name="txt_NickName" HorizontalAlignment="Left" Height="23" Margin="89,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="btn_Sign_In" Content="Sign In" HorizontalAlignment="Left" Margin="113,120,0,0" VerticalAlignment="Top" Width="75" Click="btn_Sign_In_Click"/>

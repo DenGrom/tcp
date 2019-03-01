@@ -44,5 +44,9 @@ namespace MicroTcp.Client
             txt_Password.Text = String.Empty;
         }
 
+        private void Registration_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
